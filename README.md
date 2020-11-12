@@ -2,9 +2,6 @@
 Sample code that uses the Webex Teams Web SDK to create a custom portal for joining webex meetings as a temporarily generated Guest User in Spaces, scheduled meetings or meetings in PMRs in addition to being able to call other Webex Teams users directly 1-1. 
 
 
-| :exclamation:  External repository notice   |
-|:---------------------------|
-| This repository is now mirrored at https://github.com/gve-sw/GVE_Devnet_Webex_Meeting_Custom_Guest_Join_Call  Please inform a https://github.com/gve-sw/ organization admin of any changes to mirror them to the external repo |
 ## Contacts
 * Gerardo Chaves (gchaves@cisco.com)
 * Raveesh Malyavantham V (rmalyava@cisco.com)
