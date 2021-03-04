@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2020 Cisco and/or its affiliates.
+Copyright (c) 2021 Cisco and/or its affiliates.
 
 This software is licensed to you under the terms of the Cisco Sample
 Code License, Version 1.1 (the "License"). You may obtain a copy of the
@@ -97,6 +97,9 @@ or implied.
                                               <button type="button" class="btn btn--icon btn--negative qtr-margin"
                                                   id="stop-sending-video" disabled><span
                                                       class="btn-icon icon-video-cross"></span></button>
+                                              <button type="button" class="btn btn--icon btn--primary qtr-margin"
+                                                      id="low-bandwidth-mode" disabled><span
+                                                          class="btn-icon icon-call-rate"></span></button>
                                           </div>
                                       </div>
                                   </div>
@@ -174,8 +177,12 @@ webex.meetings.register().then(() => {
           return webex.meetings.create(destination).then((meeting) => {
             // Pass the meeting to our join meeting helper
             updateStatus('Calling.');
+
+            //meeting.setMeetingQuality('MEDIUM').then(); 
+              
             joinMeeting(meeting);
             return bindMeetingEvents(meeting);
+
           });
 
         });
@@ -281,12 +288,29 @@ webex.meetings.register().then(() => {
       // click on the Start Video button
       if (meetingHasVideo == false) {
         console.log("about to getMediaStreams()..");
-        meeting.getMediaStreams({ sendVideo: true }, { video: true })
-          .then(([localStream]) => meeting.updateVideo({
-            stream: localStream,
-            sendVideo: true,
-            receiveVideo: true
-          }))
+        const mediaSettings = {
+            receiveVideo: true,
+            receiveAudio: true,
+            receiveShare: true,
+            sendVideo: false, // Start call with no video
+            sendAudio: true,
+            sendShare: false,
+          };
+        meeting.getMediaStreams(mediaSettings)
+          .then(([localStream]) => { 
+
+            meeting.updateAudio({
+                stream: localStream,
+                sendAudio: true,
+                receiveAudio: true
+              });
+            meeting.updateVideo({
+                stream: localStream,
+                sendVideo: true,
+                receiveVideo: true
+              });
+        }
+          )
           .then(() => {
             meetingHasVideo = true;
           });
@@ -296,6 +320,7 @@ webex.meetings.register().then(() => {
       meeting.unmuteVideo().then(() => {
         document.getElementById('camera-state').setAttribute('data-balloon', 'on');
         document.getElementById('stop-sending-video').disabled = false;
+
       });
     }
   });
@@ -309,9 +334,21 @@ webex.meetings.register().then(() => {
     }
   });
 
+  document.getElementById('low-bandwidth-mode').addEventListener('click', () => {
+    if (meeting) {
+
+      meeting.setMeetingQuality('LOW').then(() => {
+        document.getElementById('camera-state').setAttribute('data-balloon', 'Low bandwidth mode enabled');
+      });
+    }
+  });
+
   // Of course, we'd also like to be able to end the call:
   document.getElementById('hangup').addEventListener('click', () => {
+
+    
     if (meeting) {
+
       meeting.leave().then(() => {
         document.getElementById('microphone-state').setAttribute('data-balloon', 'off');
         document.getElementById('camera-state').setAttribute('data-balloon', 'off');
@@ -322,11 +359,15 @@ webex.meetings.register().then(() => {
         document.getElementById('start-sending-audio').disabled = true;
         document.getElementById('stop-sending-audio').disabled = true;
         document.getElementById('start-sending-video').disabled = true;
+        document.getElementById('low-bandwidth-mode').disabled = true;
 
         updateStatus('Disconnected.');
 
       });
+
+
     }
+
   });
 }
 
@@ -339,6 +380,9 @@ function joinMeeting(meeting) {
     document.getElementById('start-sending-audio').disabled = false;
     document.getElementById('stop-sending-audio').disabled = false;
     document.getElementById('start-sending-video').disabled = false;
+    document.getElementById('low-bandwidth-mode').disabled = false;
+    document.getElementById('low-bandwidth-mode').setAttribute('data-balloon', 'Set low bandwidth mode');
+
     updateStatus('Connected to Expert');
     const mediaSettings = {
       receiveVideo: true,
@@ -358,6 +402,7 @@ function joinMeeting(meeting) {
         localStream,
         mediaSettings,
       });
+
     });
   });
 }

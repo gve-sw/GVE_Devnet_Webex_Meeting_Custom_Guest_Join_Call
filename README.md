@@ -115,6 +115,8 @@ Edit `.env` and fill out the requested values:
 
   - You can mute your audio or video at any time using the corresponding icons.  
 
+  - You can also lower the quality of the video sent in the meeting by clicking on the blue call rate button.
+
   - The gray webex, mic and camera icons on the right contain the status of the call and the webex connection, you can mouse over them to reveal the status  
 
   - If content is shared in the meeting, the main remote video window will be replaced with the content being shared until the sharing stops.  
