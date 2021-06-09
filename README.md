@@ -76,7 +76,7 @@ Edit `.env` and fill out the requested values:
 
 `GUEST_ISSUER_ID`: Specified when creating the Guest Issuer Authority described above.  
 `GUEST_SHARED_SECRET`: This is the Guest Issuer Shared Secret obtained when creating the Guest Issuer Authority described above.  
-`GUEST_ISSUER_SUBJECT`: Obtained when creating the Guest Issuer Authority described above; this is the Guest Issuer Name.  
+`GUEST_ISSUER_SUBJECT`: The subject of the token. This is your unique and public identifier for the guest user. This claim may contain only letters, numbers, and hyphens.  
 `GUEST_DISPLAY_NAME`: This is the display name of the guest user you are generating. (i.e. Johnny Guest). It will be shown as the name of the participant in a meeting or 1-1 call using this sample code.  
 `GUEST_TOKEN_EXPIRATION`: Time in seconds the guest token should be valid for. The default value  in the samle is 5400 seconds or 90 minutes which is usually enough for a regular tele-consultation or to have the guest join a meeting that lasts 1 hour (in case of extension)  
 `WEBEX_TEAMS_ACCESS_TOKEN`: The Webex Teams Access token to initialize the Webex Teams Python SDK with. This sample code only uses one call in that SDK to generate a guest user and access token that does not require some other valid access token, so you can leave the defautl value of  NOTNEEDEDFORONLYISSUINGGUESTTOKEN  unless you will add code to do other things with the Webex Teams REST API for which you would actually need a token. You can even re-initialize the SDK with the Guest access token obtained if you intend to perform operations on behalf of a guest user (i.e. create messages in a Webex Teams Space) when adding functionality to this sample.    

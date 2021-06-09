@@ -33,7 +33,7 @@ app = Flask(__name__)
 def join_meeting(destination_id):
     #api = WebexTeamsAPI(access_token=os.getenv("WEBEX_TEAMS_ACCESS_TOKEN"))
     api = WebexTeamsAPI()
-    subject = os.getenv("GUEST_ISSUER_SUBJECT") # This is the unique name of your guest issuer i.e. the mail address
+    subject = os.getenv("GUEST_ISSUER_SUBJECT") # The subject of the token. This is your unique and public identifier for the guest user. This claim may contain only letters, numbers, and hyphens
     display_name = os.getenv("GUEST_DISPLAY_NAME") # This is the name your guest issuer will be seen as in the meeting
     guest_issuer_id = os.getenv("GUEST_ISSUER_ID") # The guest issuer id. You can obtain this from developer.webex.com
     expiration_time = os.getenv("GUEST_TOKEN_EXPIRATION") # Unix timestamp of how long this guest issuer should be valid for.
