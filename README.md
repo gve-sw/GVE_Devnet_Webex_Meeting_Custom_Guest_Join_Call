@@ -5,6 +5,7 @@ Sample code that uses the Webex Teams Web SDK to create a custom portal for join
 ## Contacts
 * Gerardo Chaves (gchaves@cisco.com)
 * Raveesh Malyavantham V (rmalyava@cisco.com)
+* Andrew Dunsmoor (adunsmoo@cisco.com)
 
 ## Solution Components
 *  Webex Meetings
@@ -16,7 +17,7 @@ Sample code that uses the Webex Teams Web SDK to create a custom portal for join
 
 ## Installation/Configuration
 
-It is recommend to set up your environment as followed, to use this frontend template:
+It is recommended that you set up your environment as follows to use this sample code:
 
 In the CLI:
 1.	Choose a folder, then create and activate a virtual environment for the project
@@ -29,7 +30,7 @@ In the CLI:
     source [add name of virtual environment here]/bin/activate
     ```
 
-2. Access the created virtual enviroment folder
+2. Access the created virtual environment folder
     ```python
     cd [add name of virtual environment here] 
     ```

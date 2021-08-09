@@ -98,7 +98,7 @@ or implied.
                                                   id="stop-sending-video" disabled><span
                                                       class="btn-icon icon-video-cross"></span></button>
                                               <button type="button" class="btn btn--icon btn--primary qtr-margin"
-                                                      id="low-bandwidth-mode" disabled><span
+                                                      id="low-bandwidth-mode" value="off" disabled><span
                                                           class="btn-icon icon-call-rate"></span></button>
                                           </div>
                                       </div>
@@ -165,7 +165,7 @@ function updateStatus(status) {
 }
 
 webex.meetings.register().then(() => {
-        //  Disable the button to connect call until all is propertly initialized  
+        //  Disable the button to connect call until all is propertly initialized
         //document.getElementById('call').disabled = true;
         console.log("about to register the call button... ");
 
@@ -178,8 +178,8 @@ webex.meetings.register().then(() => {
             // Pass the meeting to our join meeting helper
             updateStatus('Calling.');
 
-            //meeting.setMeetingQuality('MEDIUM').then(); 
-              
+            //meeting.setMeetingQuality('MEDIUM').then();
+
             joinMeeting(meeting);
             return bindMeetingEvents(meeting);
 
@@ -292,12 +292,12 @@ webex.meetings.register().then(() => {
             receiveVideo: true,
             receiveAudio: true,
             receiveShare: true,
-            sendVideo: false, // Start call with no video
+            sendVideo: true,
             sendAudio: true,
             sendShare: false,
           };
         meeting.getMediaStreams(mediaSettings)
-          .then(([localStream]) => { 
+          .then(([localStream]) => {
 
             meeting.updateAudio({
                 stream: localStream,
@@ -336,17 +336,33 @@ webex.meetings.register().then(() => {
 
   document.getElementById('low-bandwidth-mode').addEventListener('click', () => {
     if (meeting) {
+      // console.log(document.getElementById('low-bandwidth-mode').disabled)
+      // meeting.setMeetingQuality('LOW').then(() => {
+      //   document.getElementById('camera-state').setAttribute('data-balloon', 'Low bandwidth mode enabled');
+      // });
 
-      meeting.setMeetingQuality('LOW').then(() => {
-        document.getElementById('camera-state').setAttribute('data-balloon', 'Low bandwidth mode enabled');
-      });
-    }
-  });
+      if(document.getElementById('low-bandwidth-mode').value=='off'){
+        meeting.setMeetingQuality('LOW');
+        document.getElementById('low-bandwidth-mode').value='on';
+        document.getElementById('camera-state').setAttribute('data-balloon', 'On: Low bandwidth mode enabled');
+        document.getElementById('low-bandwidth-mode').style.backgroundColor = '#f44336'; // Red
+        document.getElementById('low-bandwidth-mode').style.borderColor = '#f44336'; // Red
+        console.log('Set bandwidth low');
+       }
+
+      else {
+        meeting.setMeetingQuality('HIGH');
+        document.getElementById('low-bandwidth-mode').value='off';
+        document.getElementById('camera-state').setAttribute('data-balloon', 'On: High quality mode');
+        document.getElementById('low-bandwidth-mode').style.backgroundColor = '#008CBA'; // Blue
+        document.getElementById('low-bandwidth-mode').style.borderColor = '#008CBA'; // Blue
+        console.log('Set bandwidth high');
+        }
+      }
+    });
 
   // Of course, we'd also like to be able to end the call:
   document.getElementById('hangup').addEventListener('click', () => {
-
-    
     if (meeting) {
 
       meeting.leave().then(() => {
